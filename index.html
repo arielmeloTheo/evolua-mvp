@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#075c3f">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<title>EVOLUA — Theo</title>
+<style>
+:root{--green:#075c3f;--green2:#0d7650;--mint:#e9f6ef;--ink:#16352b;--muted:#6b7b75;--bg:#f5f7f6;--white:#fff;--orange:#f4a62a;--red:#e46c72;--blue:#4b9be8;--shadow:0 8px 25px rgba(18,58,43,.08)}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;color:var(--ink)}
+.app{max-width:480px;margin:auto;min-height:100vh;background:var(--bg);padding-bottom:82px}
+header{background:linear-gradient(135deg,#064f36,#0b7a51);color:#fff;padding:20px 18px 24px;border-radius:0 0 26px 26px}
+.brand{font-weight:800;letter-spacing:.8px;font-size:22px}.brand small{display:block;font-weight:500;font-size:11px;opacity:.85;margin-top:2px}
+.greeting{font-size:27px;font-weight:800;margin:22px 0 4px}.sub{opacity:.9}
+main{padding:16px}.card{background:#fff;border-radius:18px;padding:16px;margin-bottom:14px;box-shadow:var(--shadow)}
+.profile{display:flex;align-items:center;gap:13px}.avatar{width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,#ccebd9,#fff);display:grid;place-items:center;font-size:32px;border:3px solid #fff;box-shadow:0 2px 10px #0001}.name{font-size:20px;font-weight:800}.muted{color:var(--muted);font-size:13px}
+.kpi{display:flex;align-items:center;justify-content:space-between}.big{font-size:34px;font-weight:900;color:var(--green)}.up{color:#168252;font-weight:700;font-size:13px}
+.section-title{font-size:18px;font-weight:800;margin:18px 2px 10px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.stat{padding:14px;border-radius:14px;background:#f4f8f6}.stat b{display:block;font-size:21px;margin-top:5px}.bar{height:8px;background:#e9efec;border-radius:99px;margin-top:9px;overflow:hidden}.fill{height:100%;border-radius:99px;background:var(--green)}
+.focus{background:#e7f5ed;border:1px solid #cbe9d9}.focus b{font-size:17px}.ai{background:#fff7e7;border:1px solid #f8e1ae}
+button{border:0;border-radius:13px;padding:13px 15px;font-weight:800;font-size:15px;cursor:pointer}.primary{width:100%;background:var(--green);color:#fff}.secondary{background:#edf4f0;color:var(--green)}.danger{background:#fff0f0;color:#a63c43}
+.row{display:flex;justify-content:space-between;align-items:center;gap:10px}.stars{font-size:23px;letter-spacing:1px;color:#f3a81e}.star.off{color:#d7dfdb}.rating{display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:1px solid #edf1ef}.rating:last-child{border-bottom:0}
+textarea,input,select{width:100%;border:1px solid #dce6e1;border-radius:12px;padding:12px;font:inherit;background:#fff;outline:none}textarea{min-height:105px;resize:vertical}
+.nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);max-width:480px;width:100%;background:#fff;border-top:1px solid #e4ebe7;display:flex;justify-content:space-around;padding:8px 5px calc(8px + env(safe-area-inset-bottom));z-index:20}.nav button{background:none;color:#7b8984;padding:8px 6px;font-size:11px}.nav button.active{color:var(--green)}.nav span{display:block;font-size:21px;margin-bottom:2px}
+.screen{display:none}.screen.active{display:block}.back{background:none;padding:0;color:var(--green);font-size:14px}.topline{display:flex;align-items:center;gap:12px;margin-bottom:14px}.topline h2{margin:0;font-size:21px}
+.legend{display:flex;gap:12px;font-size:11px;color:var(--muted);margin-top:10px}.dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:4px}
+canvas{width:100%;height:210px;background:#fbfcfb;border-radius:14px}
+.empty{padding:25px;text-align:center;color:var(--muted)}
+.badges{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.badge{background:#f6f8f7;border-radius:15px;padding:14px 8px;text-align:center;font-size:12px}.badge .ico{font-size:30px}.badge.lock{opacity:.42}
+.toast{position:fixed;left:50%;bottom:95px;transform:translateX(-50%);background:#173d31;color:white;padding:11px 15px;border-radius:99px;display:none;z-index:50;font-size:13px}
+@media(min-width:600px){body{padding:20px 0}.app{border-radius:28px;overflow:hidden;box-shadow:0 15px 50px #0001}}
+</style>
+</head>
+<body>
+<div class="app">
+<header>
+  <div class="brand">⚽ EVOLUA <small>Desenvolvimento que você consegue enxergar.</small></div>
+  <div class="greeting">Olá, Ariel! 👋</div>
+  <div class="sub">Veja como o Theo está evoluindo.</div>
+</header>
+
+<main>
+<section id="home" class="screen active">
+  <div class="card profile"><div class="avatar">👦</div><div><div class="name">Theo</div><div class="muted">5 anos • Meu atleta</div></div></div>
+  <div class="card kpi"><div><div class="muted">Evolução geral</div><div class="big" id="homeGrowth">—</div><div class="up" id="homeGrowthText">Começando o acompanhamento</div></div><div style="font-size:42px">📈</div></div>
+  <div class="section-title">Como ele está?</div>
+  <div class="grid" id="homeStats"></div>
+  <div class="card focus"><div class="muted">🎯 FOCO ATUAL</div><div style="margin-top:6px"><b id="focusTitle">Vamos descobrir juntos</b></div><div class="muted" id="focusText" style="margin-top:5px">Depois de alguns treinos, o app identifica o principal ponto de desenvolvimento.</div></div>
+  <div class="card ai"><div class="muted">🤖 ANÁLISE</div><div id="homeAi" style="margin-top:7px">Registre o primeiro treino para começar a construir a história do Theo.</div></div>
+  <button class="primary" onclick="show('training')">＋ REGISTRAR NOVO TREINO</button>
+</section>
+
+<section id="evolution" class="screen">
+  <div class="topline"><h2>📈 Evolução do Theo</h2></div>
+  <div class="card"><div class="row"><b>Últimos registros</b><span class="muted" id="recordCount">0 treinos</span></div><canvas id="chart" width="900" height="420"></canvas><div class="legend"><span><i class="dot" style="background:#0b7a51"></i>Técnica</span><span><i class="dot" style="background:#4b9be8"></i>Movimento</span><span><i class="dot" style="background:#f4a62a"></i>Jogo</span><span><i class="dot" style="background:#e46c72"></i>Comportamento</span></div></div>
+  <div class="grid" id="evoStats"></div>
+</section>
+
+<section id="training" class="screen">
+  <div class="topline"><button class="back" onclick="show('home')">← Voltar</button><h2>Novo treino</h2></div>
+  <div class="card"><label class="muted">Data do treino</label><input type="date" id="date"></div>
+  <div class="card"><b>Como foi?</b><div id="ratings"></div></div>
+  <div class="card"><label class="muted">O que aconteceu?</label><textarea id="note" placeholder="Ex.: Hoje o Theo participou bastante, tentou dribles e conseguiu trocar mais passes..."></textarea><button class="secondary" style="margin-top:10px;width:100%" onclick="voice()">🎙️ Gravar / ditar observação</button></div>
+  <button class="primary" onclick="saveTraining()">SALVAR TREINO</button>
+</section>
+
+<section id="history" class="screen">
+  <div class="topline"><h2>⚽ Treinos</h2></div>
+  <div id="historyList"></div>
+</section>
+
+<section id="profile" class="screen">
+  <div class="topline"><h2>👦 Perfil do Theo</h2></div>
+  <div class="card profile"><div class="avatar">👦</div><div><div class="name">Theo</div><div class="muted">5 anos</div><div class="muted">Acompanhamento iniciado em setembro/2026</div></div></div>
+  <div class="card"><b>Índices atuais</b><div class="grid" id="profileStats" style="margin-top:10px"></div></div>
+  <div class="card"><b>🏆 Conquistas</b><div class="badges" style="margin-top:12px"><div class="badge"><div class="ico">🌱</div>Primeiro treino</div><div class="badge"><div class="ico">⚽</div>5 treinos</div><div class="badge"><div class="ico">🔥</div>10 treinos</div></div></div>
+  <button class="danger" onclick="resetApp()" style="width:100%">Apagar dados de teste</button>
+</section>
+</main>
+
+<nav class="nav">
+<button data-s="home" class="active" onclick="show('home')"><span>🏠</span>Início</button>
+<button data-s="evolution" onclick="show('evolution')"><span>📈</span>Evolução</button>
+<button data-s="training" onclick="show('training')"><span>⚽</span>Novo treino</button>
+<button data-s="history" onclick="show('history')"><span>📋</span>Treinos</button>
+<button data-s="profile" onclick="show('profile')"><span>👦</span>Perfil</button>
+</nav>
+<div class="toast" id="toast"></div>
+</div>
+
+<script>
+const KEY='evolua_theo_v01';
+const skills=[
+ ['Participação','comportamento'],['Passe','tecnica'],['Domínio','tecnica'],['Drible','tecnica'],
+ ['Finalização','tecnica'],['Posicionamento','jogo'],['Trabalho em equipe','comportamento']
+];
+const movement=['Coordenação','Agilidade','Velocidade'];
+let data=JSON.parse(localStorage.getItem(KEY)||'[]');
+let currentRatings={};
+
+function today(){return new Date().toISOString().slice(0,10)}
+document.getElementById('date').value=today();
+
+function show(id){
+ document.querySelectorAll('.screen').forEach(x=>x.classList.remove('active'));
+ document.getElementById(id).classList.add('active');
+ document.querySelectorAll('.nav button').forEach(x=>x.classList.toggle('active',x.dataset.s===id));
+ if(id==='home') renderHome(); if(id==='evolution') renderEvolution(); if(id==='history') renderHistory(); if(id==='profile') renderProfile();
+ window.scrollTo(0,0);
+}
+function ratingHTML(){
+ const all=skills;
+ document.getElementById('ratings').innerHTML=all.map(([n])=>`<div class="rating"><span>${n}</span><span class="stars" data-skill="${n}">${[1,2,3,4,5].map(i=>`<span class="star off" onclick="setRating('${n}',${i})">★</span>`).join('')}</span></div>`).join('');
+}
+function setRating(skill,n){
+ currentRatings[skill]=n*2;
+ document.querySelector(`[data-skill="${skill}"]`).innerHTML=[1,2,3,4,5].map(i=>`<span class="star ${i<=n?'':'off'}" onclick="setRating('${skill}',${i})">★</span>`).join('');
+}
+function saveTraining(){
+ const ratings={...currentRatings}; if(Object.keys(ratings).length<3){toast('Avalie pelo menos 3 itens.');return;}
+ data.push({id:Date.now(),date:document.getElementById('date').value,ratings,note:document.getElementById('note').value.trim()});
+ localStorage.setItem(KEY,JSON.stringify(data)); currentRatings={}; document.getElementById('note').value=''; ratingHTML();
+ toast('Treino salvo! ⚽'); setTimeout(()=>show('home'),500);
+}
+function avg(type){
+ let vals=[]; data.forEach(t=>Object.entries(t.ratings).forEach(([k,v])=>{let s=skills.find(x=>x[0]===k);if(s&&s[1]===type)vals.push(v)})); return vals.length?vals.reduce((a,b)=>a+b,0)/vals.length:0;
+}
+function areaStats(){
+ return {tecnica:avg('tecnica'),movimento:avg('movimento'),jogo:avg('jogo'),comportamento:avg('comportamento')}
+}
+function renderHome(){
+ const a=areaStats(), vals=Object.values(a).filter(v=>v); let current=vals.length?vals.reduce((x,y)=>x+y,0)/vals.length:0;
+ document.getElementById('homeGrowth').textContent=data.length?`+${Math.max(1,Math.round((current-5)/5*100))}%`:'—';
+ document.getElementById('homeGrowthText').textContent=data.length?`${data.length} treino${data.length>1?'s':''} registrados`:'Começando o acompanhamento';
+ const names={tecnica:'⚽ Técnica',movimento:'🏃 Movimento',jogo:'🧠 Jogo',comportamento:'❤️ Comportamento'};
+ document.getElementById('homeStats').innerHTML=Object.entries(names).map(([k,n])=>`<div class="stat"><div class="muted">${n}</div><b>${a[k]?a[k].toFixed(1):'—'}</b><div class="bar"><div class="fill" style="width:${a[k]?a[k]*10:0}%"></div></div></div>`).join('');
+ let focus='Vamos descobrir juntos', text='Depois de alguns treinos, o app identifica o principal ponto de desenvolvimento.';
+ if(data.length){
+   const sums={}; data.forEach(t=>Object.entries(t.ratings).forEach(([k,v])=>{sums[k]=(sums[k]||[]).concat(v)}));
+   const means=Object.entries(sums).map(([k,v])=>[k,v.reduce((x,y)=>x+y,0)/v.length]).sort((x,y)=>x[1]-y[1]);
+   focus=means[0][0]; text=`Hoje, ${focus.toLowerCase()} é o indicador com menor média registrada. Isso não é uma classificação: é apenas um foco para acompanhar.`;
+ }
+ document.getElementById('focusTitle').textContent=focus; document.getElementById('focusText').textContent=text;
+ const last=data[data.length-1];
+ document.getElementById('homeAi').textContent=last?aiText(last):'Registre o primeiro treino para começar a construir a história do Theo.';
+}
+function aiText(t){
+ let r=t.ratings, best=Object.entries(r).sort((a,b)=>b[1]-a[1])[0], low=Object.entries(r).sort((a,b)=>a[1]-b[1])[0];
+ return `No último treino, o destaque foi ${best[0].toLowerCase()} (${best[1]}/10). O principal ponto para observar é ${low[0].toLowerCase()} (${low[1]}/10).${t.note?' '+t.note:''}`;
+}
+function renderEvolution(){
+ const a=areaStats(); document.getElementById('recordCount').textContent=`${data.length} treino${data.length===1?'':'s'}`;
+ const names={tecnica:'⚽ Técnica',movimento:'🏃 Movimento',jogo:'🧠 Jogo',comportamento:'❤️ Comportamento'};
+ document.getElementById('evoStats').innerHTML=Object.entries(names).map(([k,n])=>`<div class="stat"><div class="muted">${n}</div><b>${a[k]?a[k].toFixed(1):'—'}</b></div>`).join('');
+ drawChart();
+}
+function drawChart(){
+ const c=document.getElementById('chart'),ctx=c.getContext('2d'),W=c.width,H=c.height;ctx.clearRect(0,0,W,H);
+ ctx.strokeStyle='#e4ebe7';ctx.lineWidth=2;
+ for(let y=1;y<=5;y++){let yy=H-45-(y-1)*(H-85)/4;ctx.beginPath();ctx.moveTo(55,yy);ctx.lineTo(W-20,yy);ctx.stroke();ctx.fillStyle='#83908b';ctx.font='22px Arial';ctx.fillText(y*2,12,yy+7);}
+ const colors=['#0b7a51','#4b9be8','#f4a62a','#e46c72'], types=['tecnica','movimento','jogo','comportamento'];
+ types.forEach((type,idx)=>{
+   let points=data.map((t,i)=>{let vs=[];Object.entries(t.ratings).forEach(([k,v])=>{let s=skills.find(x=>x[0]===k);if(s&&s[1]===type)vs.push(v)});return [i,vs.length?vs.reduce((a,b)=>a+b,0)/vs.length:null]}).filter(x=>x[1]!=null);
+   if(!points.length)return;
+   ctx.strokeStyle=colors[idx];ctx.lineWidth=5;ctx.beginPath();
+   points.forEach((p,j)=>{let x=60+(p[0]/Math.max(1,data.length-1))*(W-90), y=H-45-(p[1]-2)*(H-85)/8; j?ctx.lineTo(x,y):ctx.moveTo(x,y)});ctx.stroke();
+   ctx.fillStyle=colors[idx];points.forEach(p=>{let x=60+(p[0]/Math.max(1,data.length-1))*(W-90),y=H-45-(p[1]-2)*(H-85)/8;ctx.beginPath();ctx.arc(x,y,7,0,Math.PI*2);ctx.fill()});
+ });
+}
+function renderHistory(){
+ const el=document.getElementById('historyList');
+ if(!data.length){el.innerHTML='<div class="card empty">Nenhum treino registrado ainda.<br><br>Comece pelo primeiro treino do Theo! ⚽</div>';return;}
+ el.innerHTML=[...data].reverse().map(t=>`<div class="card"><div class="row"><b>⚽ Treino — ${new Date(t.date+'T12:00').toLocaleDateString('pt-BR')}</b><span class="muted">${Object.keys(t.ratings).length} itens</span></div><div class="muted" style="margin-top:8px">${aiText(t)}</div>${t.note?`<div style="margin-top:10px">“${escapeHTML(t.note)}”</div>`:''}</div>`).join('');
+}
+function renderProfile(){
+ const a=areaStats(),names={tecnica:'⚽ Técnica',movimento:'🏃 Movimento',jogo:'🧠 Jogo',comportamento:'❤️ Comportamento'};
+ document.getElementById('profileStats').innerHTML=Object.entries(names).map(([k,n])=>`<div class="stat"><div class="muted">${n}</div><b>${a[k]?a[k].toFixed(1):'—'}</b></div>`).join('');
+}
+function voice(){
+ const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+ if(!SR){toast('Ditado não disponível neste navegador.');return;}
+ const rec=new SR();rec.lang='pt-BR';rec.interimResults=false;rec.onresult=e=>{document.getElementById('note').value+=(document.getElementById('note').value?' ':'')+e.results[0][0].transcript;};rec.onerror=()=>toast('Não consegui iniciar o ditado.');rec.start();toast('Pode falar 🎙️');
+}
+function toast(s){const t=document.getElementById('toast');t.textContent=s;t.style.display='block';setTimeout(()=>t.style.display='none',1800)}
+function escapeHTML(s){return s.replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]))}
+function resetApp(){if(confirm('Apagar todos os treinos de teste?')){localStorage.removeItem(KEY);data=[];renderHome();toast('Dados apagados.');}}
+ratingHTML();renderHome();
+</script>
+</body>
+</html>
